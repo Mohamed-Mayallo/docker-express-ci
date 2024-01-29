@@ -11,12 +11,15 @@ mongoose
     console.log('Connected to mongod successfully!');
   })
   .catch((e) => {
-    console.log(e, 'eeeeeeee');
     console.log('ERROR while mongo connection!');
   });
 
 app.get('/', async (req, res) => {
-  const kitty = new Cat({ name: 'Zildjian - ' + Math.random() });
+  const kitty = new Cat({
+    name: 'Zildjian - ' + Math.random(),
+    age: Math.floor(Math.random() * 10),
+    hello: 'world2'
+  });
   await kitty.save();
 
   res.json(kitty).send();
