@@ -1,0 +1,16 @@
+version: '3.9'
+
+services:
+  node:
+    container_name: express-docker-node-dev
+    ports:
+      - '9091:4000'
+    build:
+      context: .
+      target: development
+      # image: mayallo/docker-express
+    command: npm run start:dev
+    volumes:
+      - './src:/app/src:ro'
+    environment:
+      - NODE_ENV=development
