@@ -10,9 +10,9 @@ executors:
   install_mongo:
     docker:
       - image: mongo
-        environment:
-          MONGO_INITDB_ROOT_USERNAME: root
-          MONGO_INITDB_ROOT_PASSWORD: example
+        # environment:
+        #   MONGO_INITDB_ROOT_USERNAME: root
+        #   MONGO_INITDB_ROOT_PASSWORD: example
 
 commands:
   build_node:
