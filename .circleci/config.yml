@@ -49,7 +49,7 @@ jobs:
       - run:
           name: 'Wait for Mongo'
           command: |
-            dockerize -wait tcp://127.0.0.1:27017 -timeout 1m
+            dockerize -wait tcp://mongo:27017 -timeout 1m
             sleep 10
 
 workflows:
