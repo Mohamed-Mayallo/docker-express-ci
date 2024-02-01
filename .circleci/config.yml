@@ -38,9 +38,11 @@ jobs:
       - run:
           name: 'Install Dockerize'
           command: |
+            sudo apt update
+            sudo apt install wget
             wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
             tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
-            rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
+            rm dockerize-linux-amd64-v0.3.0.tar.gz
       - run:
           name: 'Wait for Mongo'
           command: |
