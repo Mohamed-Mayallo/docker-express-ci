@@ -7,7 +7,8 @@ const app = express();
 let Cat;
 
 mongoose
-  .connect('mongodb://127.0.0.1:27017/hey')
+  .connect('mongodb://mongo:27017/hey')
+  // .connect('mongodb://127.0.0.1:27017/hey')
   // .connect('mongodb://root:example@mongo:27017/')
   .then(() => {
     console.log('Connected to mongod successfully!');
