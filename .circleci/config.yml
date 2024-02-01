@@ -1,0 +1,59 @@
+version: 2.1
+
+orbs:
+  node: circleci/node@5.2.0
+
+executors:
+  install_node:
+    docker:
+      - image: cimg/node:21.6.1
+  install_mongo:
+    docker:
+      - image: mongo
+        environment:
+          MONGO_INITDB_ROOT_USERNAME: root
+          MONGO_INITDB_ROOT_PASSWORD: example
+
+commands:
+  build_node:
+    steps:
+      - checkout
+      - node/install-packages
+      - run: echo "Packages are installed successfully!"
+
+jobs:
+  test_app:
+    executor: install_node
+    steps:
+      - build_node
+      - run:
+          name: 'Run test!'
+          command: npm run test
+      - store_test_results:
+          path: ~/test/reports/jest
+
+  connect_mongo:
+    executor: install_mongo
+    steps:
+      - run:
+          name: 'Install Dockerize'
+          command: |
+            wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
+            tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
+            rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
+      - run:
+          name: 'Wait for Mongo'
+          command: |
+            dockerize -wait tcp://127.0.0.1:27017 -timeout 1m
+            sleep 10
+
+workflows:
+  main:
+    jobs:
+      - connect_mongo
+      - test_app:
+          requires:
+            - connect_mongo
+          filters:
+            branches:
+              only: main

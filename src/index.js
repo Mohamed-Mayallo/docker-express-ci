@@ -1,27 +1,24 @@
 const express = require('express');
-const mongoose = require('mongoose');
+const { createCat } = require('./create-cat');
+const { mongoose } = require('mongoose');
 
 const app = express();
 
 let Cat;
+
 mongoose
-  .connect('mongodb://root:example@mongo:27017/')
+  .connect('mongodb://127.0.0.1:27017/hey')
+  // .connect('mongodb://root:example@mongo:27017/')
   .then(() => {
-    Cat = mongoose.model('Cat', { name: String });
     console.log('Connected to mongod successfully!');
+    Cat = mongoose.model('Cat', { name: String });
   })
   .catch((e) => {
     console.log('ERROR while mongo connection!');
   });
 
 app.get('/', async (req, res) => {
-  const kitty = new Cat({
-    name: 'Zildjian - ' + Math.random(),
-    age: Math.floor(Math.random() * 10),
-    hello: 'world2'
-  });
-  await kitty.save();
-
+  const kitty = await createCat(Cat);
   res.json(kitty).send();
 });
 
