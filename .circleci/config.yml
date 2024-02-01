@@ -3,16 +3,16 @@ version: 2.1
 orbs:
   node: circleci/node@5.2.0
 
-executors:
-  install_node:
-    docker:
-      - image: cimg/node:21.6.1
-  install_mongo:
-    docker:
-      - image: mongo
-        # environment:
-        #   MONGO_INITDB_ROOT_USERNAME: root
-        #   MONGO_INITDB_ROOT_PASSWORD: example
+# executors:
+#   install_node:
+#     docker:
+#       - image: cimg/node:21.6.1
+#   install_mongo:
+#     docker:
+#       - image: mongo
+#         # environment:
+#         #   MONGO_INITDB_ROOT_USERNAME: root
+#         #   MONGO_INITDB_ROOT_PASSWORD: example
 
 commands:
   build_node:
@@ -23,7 +23,14 @@ commands:
 
 jobs:
   test_app:
-    executor: install_node
+    docker:
+      - image: cimg/node:21.6.1
+      - image: mongo
+        # environment:
+        #   MONGO_INITDB_ROOT_USERNAME: root
+        #   MONGO_INITDB_ROOT_PASSWORD: example
+        # MONGO_INITDB_DATABASE: test
+
     steps:
       - build_node
       - run:
@@ -32,33 +39,45 @@ jobs:
       - store_test_results:
           path: ~/test/reports/jest
 
-  connect_mongo:
-    executor: install_mongo
-    steps:
-      - checkout
-      - run: echo "Installing mongodb"
-      # - setup_remote_docker:
-      #     docker_layer_caching: true
-      # - run:
-      #     name: 'Install Dockerize'
-      #     command: |
-      #       apt-get update \
-      #       && apt-get install -y wget \
-      #       && wget -O - https://github.com/jwilder/dockerize/releases/download/v0.7.0/dockerize-linux-amd64-v0.7.0.tar.gz | tar xzf - -C /usr/local/bin \
-      #       && apt-get autoremove -yqq --purge wget && rm -rf /var/lib/apt/lists/*
-      # - run:
-      #     name: 'Wait for Mongo'
-      #     command: |
-      #       dockerize -wait http://127.0.0.1:27017 -timeout 1m
-      #       sleep 10
+# jobs:
+#   test_app:
+#     executor: install_node
+#     steps:
+#       - build_node
+#       - run:
+#           name: 'Run test!'
+#           command: npm run test
+#       - store_test_results:
+#           path: ~/test/reports/jest
+
+#   connect_mongo:
+#     executor: install_mongo
+#     steps:
+#       - checkout
+#       - build_node
+#       - run: echo "Installing mongodb"
+#       - setup_remote_docker:
+#           docker_layer_caching: true
+#       - run:
+#           name: 'Install Dockerize'
+#           command: |
+#             apt-get update \
+#             && apt-get install -y wget \
+#             && wget -O - https://github.com/jwilder/dockerize/releases/download/v0.7.0/dockerize-linux-amd64-v0.7.0.tar.gz | tar xzf - -C /usr/local/bin \
+#             && apt-get autoremove -yqq --purge wget && rm -rf /var/lib/apt/lists/*
+#       - run:
+#           name: 'Wait for Mongo'
+#           command: |
+#             dockerize -wait http://127.0.0.1:27017 -timeout 1m
+#             sleep 10
 
 workflows:
   main:
     jobs:
-      - connect_mongo
+      # - connect_mongo
       - test_app:
-          requires:
-            - connect_mongo
+          # requires:
+          #   - connect_mongo
           filters:
             branches:
               only: main
