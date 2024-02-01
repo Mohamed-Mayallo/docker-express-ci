@@ -35,22 +35,22 @@ jobs:
   connect_mongo:
     executor: install_mongo
     steps:
-      # - run: echo "Installing mongodb"
       - checkout
-      - setup_remote_docker:
-          docker_layer_caching: true
-      - run:
-          name: 'Install Dockerize'
-          command: |
-            apt-get update \
-            && apt-get install -y wget \
-            && wget -O - https://github.com/jwilder/dockerize/releases/download/v0.7.0/dockerize-linux-amd64-v0.7.0.tar.gz | tar xzf - -C /usr/local/bin \
-            && apt-get autoremove -yqq --purge wget && rm -rf /var/lib/apt/lists/*
-      - run:
-          name: 'Wait for Mongo'
-          command: |
-            dockerize -wait http://127.0.0.1:27017 -timeout 1m
-            sleep 10
+      - run: echo "Installing mongodb"
+      # - setup_remote_docker:
+      #     docker_layer_caching: true
+      # - run:
+      #     name: 'Install Dockerize'
+      #     command: |
+      #       apt-get update \
+      #       && apt-get install -y wget \
+      #       && wget -O - https://github.com/jwilder/dockerize/releases/download/v0.7.0/dockerize-linux-amd64-v0.7.0.tar.gz | tar xzf - -C /usr/local/bin \
+      #       && apt-get autoremove -yqq --purge wget && rm -rf /var/lib/apt/lists/*
+      # - run:
+      #     name: 'Wait for Mongo'
+      #     command: |
+      #       dockerize -wait http://127.0.0.1:27017 -timeout 1m
+      #       sleep 10
 
 workflows:
   main:
