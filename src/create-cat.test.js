@@ -6,8 +6,12 @@ describe('create cat', () => {
   let connection;
 
   beforeEach(async () => {
-    connection = await mongoose.connect('mongodb://root:example@127.0.0.1:27017/hey');
-    Cat = mongoose.model('Cat', { name: String });
+    try {
+      connection = await mongoose.connect('mongodb://root:example@127.0.0.1:27017/hey');
+      Cat = mongoose.model('Cat', { name: String });
+    } catch (e) {
+      console.log(e, '-----------');
+    }
   });
 
   afterEach(async () => {
