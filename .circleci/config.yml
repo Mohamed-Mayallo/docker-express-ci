@@ -30,10 +30,11 @@ commands:
           docker-username: DOCKER_HUB_USERNAME
           docker-password: DOCKER_HUB_PASSWORD
       - docker/install-docker-compose
-      - docker/build:
-          image: DOCKER_IMAGE_NAME
       - run:
-          name: 'Push node image to DockerHub!'
+          name: 'Build the Node image!'
+          command: docker compose -f .\docker-compose.prod.yml -p docker-express-prod build
+      - run:
+          name: 'Push the Node image to DockerHub!'
           command: docker compose -f .\docker-compose.prod.yml -p docker-express-prod push
 
 jobs:
