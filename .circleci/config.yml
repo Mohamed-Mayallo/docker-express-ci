@@ -32,10 +32,10 @@ commands:
       - docker/install-docker-compose
       - run:
           name: 'Build the Node image!'
-          command: docker compose -f .\docker-compose.prod.yml -p docker-express-prod build
+          command: docker compose -f docker-compose.prod.yml -p docker-express-prod build
       - run:
           name: 'Push the Node image to DockerHub!'
-          command: docker compose -f .\docker-compose.prod.yml -p docker-express-prod push
+          command: docker compose -f docker-compose.prod.yml -p docker-express-prod push
 
 jobs:
   test_app:
