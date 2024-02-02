@@ -1,13 +1,15 @@
 const { default: mongoose } = require('mongoose');
 const { createCat } = require('./create-cat');
 
+require('dotenv').config();
+
 describe('create cat', () => {
   let Cat;
   let connection;
 
   beforeEach(async () => {
     try {
-      connection = await mongoose.connect('mongodb://127.0.0.1:27017/hey');
+      connection = await mongoose.connect(process.env.DB_URL);
       Cat = mongoose.model('Cat', { name: String });
     } catch (e) {
       console.log(e, '-----------');

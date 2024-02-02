@@ -1,14 +1,17 @@
 const express = require('express');
 const { createCat } = require('./create-cat');
-const { mongoose } = require('mongoose');
+const { default: mongoose } = require('mongoose');
+
+require('dotenv').config();
 
 const app = express();
+
+console.log(process.env.DB_URL, '.............');
 
 let Cat;
 
 mongoose
-  .connect('mongodb://127.0.0.1:27017/hey')
-  // .connect('mongodb://root:example@mongo:27017/')
+  .connect(process.env.DB_URL)
   .then(() => {
     console.log('Connected to mongod successfully!');
     Cat = mongoose.model('Cat', { name: String });
