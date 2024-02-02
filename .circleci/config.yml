@@ -2,6 +2,7 @@ version: 2.1
 
 orbs:
   node: circleci/node@5.2.0
+  docker: circleci/docker@2.5.0
 
 # executors:
 #   install_node:
@@ -21,6 +22,20 @@ commands:
       - node/install-packages
       - run: echo "Packages are installed successfully!"
 
+  push_to_docker_hub:
+    steps:
+      - checkout
+      - node/install-packages
+      - docker/check:
+          docker-username: DOCKER_HUB_USERNAME
+          docker-password: DOCKER_HUB_PASSWORD
+      - docker/install-docker-compose
+      - docker/build:
+          image: DOCKER_IMAGE_NAME
+      - run:
+          name: 'Push node image to DockerHub!'
+          command: docker compose -f .\docker-compose.prod.yml -p docker-express-prod push
+
 jobs:
   test_app:
     docker:
@@ -29,7 +44,7 @@ jobs:
         # environment:
         #   MONGO_INITDB_ROOT_USERNAME: root
         #   MONGO_INITDB_ROOT_PASSWORD: example
-        # MONGO_INITDB_DATABASE: test
+        #   MONGO_INITDB_DATABASE: test
 
     steps:
       - build_node
@@ -38,6 +53,14 @@ jobs:
           command: npm run test
       - store_test_results:
           path: ~/test/reports/jest
+
+  build_and_push:
+    docker:
+      - image: cimg/node:21.6.1
+      - image: mongo
+    steps:
+      - build_node
+      - push_to_docker_hub
 
 # jobs:
 #   test_app:
@@ -78,6 +101,13 @@ workflows:
       - test_app:
           # requires:
           #   - connect_mongo
+          filters:
+            branches:
+              only: main
+
+      - build_and_push:
+          requires:
+            - test_app
           filters:
             branches:
               only: main
