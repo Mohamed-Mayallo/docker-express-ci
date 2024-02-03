@@ -10,7 +10,7 @@ describe('create cat', () => {
   beforeEach(async () => {
     try {
       connection = await mongoose.connect(process.env.DB_URL);
-      Cat = mongoose.model('Cat', { name: String });
+      Cat = mongoose.model('Cat', { name: String, age: Number });
     } catch (e) {
       console.log(e, '-----------');
     }
@@ -26,5 +26,6 @@ describe('create cat', () => {
 
     expect(kitty).toBeDefined();
     expect(kitty.name).toContain('Zildjian');
+    expect(kitty.age).toBe(10);
   });
 });

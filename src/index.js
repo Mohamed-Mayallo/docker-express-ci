@@ -14,7 +14,7 @@ mongoose
   .connect(process.env.DB_URL)
   .then(() => {
     console.log('Connected to mongod successfully!');
-    Cat = mongoose.model('Cat', { name: String });
+    Cat = mongoose.model('Cat', { name: String, age: Number });
   })
   .catch((e) => {
     console.log('ERROR while mongo connection!');

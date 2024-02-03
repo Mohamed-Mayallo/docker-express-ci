@@ -65,6 +65,12 @@ jobs:
       - build_node
       - push_to_docker_hub
 
+  deploy_to_ec2:
+    docker:
+      - image: arvindr226/alpine-ssh
+    steps:
+      - run: ssh -oStrictHostKeyChecking=no -v $EC2_USER@$EC2_HOST "./deploy.sh"
+
 # jobs:
 #   test_app:
 #     executor: install_node
@@ -111,6 +117,13 @@ workflows:
       - build_and_push:
           requires:
             - test_app
+          filters:
+            branches:
+              only: main
+
+      - deploy_to_ec2:
+          requires:
+            - build_and_push
           filters:
             branches:
               only: main
