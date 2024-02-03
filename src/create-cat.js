@@ -1,7 +1,7 @@
 const createCat = async (catModel) => {
   const kitty = new catModel({
     name: 'Zildjian - ' + Math.random(),
-    age: 10
+    age: 5
   });
   await kitty.save();
   return kitty;
