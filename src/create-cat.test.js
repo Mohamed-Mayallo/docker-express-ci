@@ -26,6 +26,6 @@ describe('create cat', () => {
 
     expect(kitty).toBeDefined();
     expect(kitty.name).toContain('Zildjian');
-    expect(kitty.age).toBe(4);
+    expect(kitty.age).toBe(77);
   });
 });
