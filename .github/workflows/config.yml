@@ -3,6 +3,7 @@ run-name: 'Try Github Actions'
 name: 'Try Github Actions'
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
