@@ -1,0 +1,19 @@
+run-name: 'Try Github Actions'
+
+name: 'Try Github Actions'
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  hello:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Hello"
+
+  goodbye:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Goodbye"
