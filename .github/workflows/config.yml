@@ -8,20 +8,19 @@ on:
     branches:
       - main
 
-
 jobs:
   say_hello:
     runs-on: ubuntu-latest
-    steps:  
-      - name: hello
+    steps:
       - uses: actions/checkout@v2
-      - run: |
+      - name: hello
+        run: |
           echo "hello!"
+        shell: bash
 
   say_goodbye:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "goodbye"
-      
-      
+      - name: bye
+        run: echo "goodbye"
 
