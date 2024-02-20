@@ -43,10 +43,10 @@ jobs:
             hooray
             laugh
 
-  comment_on_issue_by_api:
+  comment_on_issue_by_curl:
     runs-on: ubuntu-latest
     steps:
-      - name: Create Issue Comment by Github API
+      - name: Create Issue Comment by CURL
         run: |
           curl -L \
             -X POST \
@@ -54,16 +54,26 @@ jobs:
             -H "Authorization: Bearer ${GITHUB_TOKEN}" \
             -H "X-GitHub-Api-Version: 2022-11-28" \
             https://api.github.com/repos/${OWNER}/${REPO}/issues/${ISSUE_NUMBER}/comments \
-            -d '{"body":"Comment using Github API"}'
-        # run: |
-        #   gh api \
-        #     --method POST \
-        #     -H "Accept: application/vnd.github+json" \
-        #     -H "X-GitHub-Api-Version: 2022-11-28" \
-        #     /repos/${OWNER}/${REPO}/issues/${ISSUE_NUMBER}/comments \
-        #     -f body='Comment using Github API'
+            -d '{"body":"Comment using CURL"}'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          OWNER: ${{ github.event.organization.login }}
+          OWNER: ${{ github.event.repository.owner.login }}
+          REPO: ${{ github.event.repository.name }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+
+  comment_on_issue_by_gh_cli:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create Issue Comment by Github CLI
+        run: |
+          gh api \
+            --method POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            /repos/${OWNER}/${REPO}/issues/${ISSUE_NUMBER}/comments \
+            -f body='Comment using Github CLI'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OWNER: ${{ github.event.repository.owner.login }}
           REPO: ${{ github.event.repository.name }}
           ISSUE_NUMBER: ${{ github.event.issue.number }}
