@@ -1,6 +1,6 @@
-run-name: 'Try Github Actions'
+name: Goodbye
 
-name: 'Try Github Actions'
+run-name: goodbye-run-name
 
 on:
   workflow_dispatch:
@@ -8,13 +8,20 @@ on:
     branches:
       - main
 
-jobs:
-  hello:
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo "Hello"
 
-  goodbye:
-    runs-on: ubuntu-latest
+jobs:
+  say_hello:
+    runs-on: ubuntu@latest
+    steps:  
+      - name: hello
+      - uses: actions/checkout@v2
+      - run: |
+          echo "hello!"
+
+  say_goodbye:
+    runs-on: ubuntu@latest
     steps:
-      - run: echo "Goodbye"
+      - run: echo "goodbye"
+      
+      
+
