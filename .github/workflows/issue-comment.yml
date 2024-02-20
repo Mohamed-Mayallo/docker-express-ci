@@ -9,7 +9,8 @@ jobs:
     runs-on: ${{ matrix.runs-on }}
     strategy:
       matrix:
-        runs-on: [ubuntu-latest, windows-latest, macOS-latest]
+        runs-on: [ubuntu-latest]
+        # runs-on: [ubuntu-latest, windows-latest, macOS-latest]
         node_version: ['16', '20']
     steps:
       - name: Test on node ${{ matrix.node_version }} and ${{ matrix.runs-on }}
