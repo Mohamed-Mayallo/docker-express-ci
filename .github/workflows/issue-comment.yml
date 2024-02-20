@@ -1,0 +1,42 @@
+name: Issue Comment
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  just_try_matrix:
+    runs-on: ${{ matrix.runs-on }}
+    strategy:
+      matrix:
+        runs-on: [ubuntu-latest, windows-latest, macOS-latest]
+        node_version: ['16', '20']
+    steps:
+      - name: Test on node ${{ matrix.node_version }} and ${{ matrix.runs-on }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node_version }}
+
+  comment_on_issue_log:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Log Github event
+        run: echo ${{ toJSON(github.event) }}
+
+  comment_on_issue:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create or Update Comment
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          issue-number: ${{ github.event.issue.number }}
+          body: |
+            This is a multi-line test comment
+            - With GitHub **Markdown** :sparkles:
+            - Created by [create-or-update-comment][1]
+
+            [1]: https://github.com/peter-evans/create-or-update-comment
+          reactions: |
+            heart
+            hooray
+            laugh
