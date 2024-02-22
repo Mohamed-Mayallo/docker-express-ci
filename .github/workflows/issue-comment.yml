@@ -20,6 +20,8 @@ jobs:
 
   comment_on_issue_log:
     runs-on: ubuntu-latest
+    permissions:
+      issues: write
     steps:
       - name: Log Github event
         run: echo '${{ toJSON(github.event) }}' | jq
@@ -27,6 +29,8 @@ jobs:
 
   comment_on_issue_by_action:
     runs-on: ubuntu-latest
+    permissions:
+      issues: write
     steps:
       - name: Create Issue Comment by Actions
         uses: peter-evans/create-or-update-comment@v4
@@ -45,6 +49,8 @@ jobs:
 
   comment_on_issue_by_curl:
     runs-on: ubuntu-latest
+    permissions:
+      issues: write
     steps:
       - name: Create Issue Comment by CURL
         run: |
