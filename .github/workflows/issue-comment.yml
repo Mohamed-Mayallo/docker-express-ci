@@ -20,8 +20,6 @@ jobs:
 
   comment_on_issue_log:
     runs-on: ubuntu-latest
-    permissions:
-      issues: write
     steps:
       - name: Log Github event
         run: echo '${{ toJSON(github.event) }}' | jq
@@ -69,6 +67,8 @@ jobs:
 
   comment_on_issue_by_gh_cli:
     runs-on: ubuntu-latest
+    permissions:
+      issues: write
     steps:
       - name: Create Issue Comment by Github CLI
         run: |
