@@ -1,0 +1,53 @@
+# https://github.com/actions/example-services/blob/master/.github/workflows/postgres-service.yml
+
+name: Continous Integration
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'src/**'
+
+defaults:
+  run:
+    shell: bash
+    working-directory: ./src
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+
+      - name: Setup Node evironement
+        uses: actions/setup-node@v4.0.2
+
+      - name: Install depednecies
+        run: npm install
+
+      - name: Run linting
+        run: npm run lint
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+
+      - name: Setup Node evironement
+        uses: actions/setup-node@v4.0.2
+
+      - name: Install depednecies
+        run: npm install
+
+      - name: Install MongoDB
+        uses: supercharge/mongodb-github-action@1.10.0
+        with:
+          mongodb-username: root
+          mongodb-password: example
+          mongodb-db: default
+
+      - name: Run tests
+        run: npm run test

@@ -1,12 +1,12 @@
-const createCat = async (catModel) => {
-  const kitty = new catModel({
+const createCat = async (CatModel) => {
+  const kitty = new CatModel({
     name: 'Zildjian - ' + Math.random(),
     age: 77
-  });
-  await kitty.save();
-  return kitty;
-};
+  })
+  await kitty.save()
+  return kitty
+}
 
 module.exports = {
   createCat
-};
+}
