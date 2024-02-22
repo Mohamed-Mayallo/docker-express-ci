@@ -6,7 +6,7 @@ require('dotenv').config()
 
 const app = express()
 
-console.log(process.env.DB_URL, '.............')
+console.log(process.env.DB_URL, '..............')
 
 let Cat
 
