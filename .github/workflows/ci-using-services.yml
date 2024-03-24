@@ -32,25 +32,21 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
+    container: 
+      image: node:latest
+    services:
+      mongodb:
+        image: mongo:latest
+        ports: 
+          - 27017:27017
     steps:
       - name: Checkout source code
         uses: actions/checkout@v4
 
-      - name: Setup Node environment
-        uses: actions/setup-node@v4.0.2
-
       - name: Install dependencies
         run: npm install
-
-      - name: Install MongoDB
-        uses: supercharge/mongodb-github-action@1.10.0
-        # with:
-        #   mongodb-username: root
-        #   mongodb-password: example
-        #   mongodb-db: default
 
       - name: Run tests
         run: npm run test
         env:
-          DB_URL: mongodb://127.0.0.1:27017/
-          # DB_URL: mongodb://root:example@127.0.0.1:27017/default
+          DB_URL: mongodb://mongodb:27017/
